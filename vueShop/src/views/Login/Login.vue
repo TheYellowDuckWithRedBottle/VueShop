@@ -57,7 +57,10 @@
           else postUserInfo(this.loginForm).then(res=>{
               if(res.meta.status=="200")
               {
-                   this.$message({message: '登陆成功',type: 'success'});
+                  console.log(res);
+                   this.$message({message: '登陆成功',type: 'success'})
+                   window.sessionStorage.setItem('token',res.data.token)
+                   this.$router.push('/home')
               }
               else if(res.meta.msg=="用户名不存在"){
                    this.$message.error('用户名不存在，登录失败');
