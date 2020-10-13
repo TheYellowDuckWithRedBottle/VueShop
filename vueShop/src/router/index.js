@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 const Login=()=>import ('@/views/Login/Login')
+const Home=()=>import ('@/views/Home/Home')
 
 Vue.use(Router)
 
@@ -13,6 +14,10 @@ const routes=[
   {
     path:'/login',
     component:Login
+  },
+  {
+    path:'/home',
+    component:Home
   }
 ]
 const router= new Router({
@@ -20,4 +25,10 @@ const router= new Router({
   routes
 })
 
+router.beforeEach((to, from, next) => {
+  if(to.path==="/login") return next()
+  const token=window.sessionStorage.getItem("token")
+  if(!token) return next('/login')
+  else{ next()}
+})
 export default router

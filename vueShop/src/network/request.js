@@ -7,7 +7,7 @@ export function request(config){
     })
 
     instance.interceptors.request.use(config=>{
-        
+        config.headers.Authorization=window.sessionStorage.getItem('token')
         return config
     },err=>{
         console.log(err)
