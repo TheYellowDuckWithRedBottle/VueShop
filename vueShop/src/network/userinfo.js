@@ -9,3 +9,13 @@ export function postUserInfo(userInfo){
         }
     })
 }
+export function getUsers(Queryparams){
+    return request({
+        method:'get',
+        url:'users',
+        params:{
+            pagenum:Queryparams.pagenum,
+            pagesize:Queryparams.pagesize
+        }
+    })
+}
