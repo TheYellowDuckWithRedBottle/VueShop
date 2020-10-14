@@ -20,18 +20,21 @@
     :collapse="isCollapse"
     :collapse-transition="false"
     :default-active="activeLink"
+    router
     >
-      <el-submenu :index="menu.id+''" v-for="(menu,index) in subMenu" :key="index">
+      <el-submenu :index="menu.path+''" v-for="(menu,index) in subMenu" :key="index">
         <template slot="title"><i :class="iconStyle[menu.id]"></i><span>{{menu.authName}}</span></template>
         <el-menu-item-group >
           <el-menu-item 
           v-for="(submenu,index1) in menu.children" :key="index1"
-          :index="submenu.id+''" @click="saveActiveLink(submenu.id)"><i class="el-icon-menu"></i>{{submenu.authName}}</el-menu-item>
+          :index="submenu.path+''" @click="saveActiveLink(submenu.id)"><i class="el-icon-menu"></i>{{submenu.authName}}</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
         </el-menu>
     </el-aside>
-    <el-main>Main</el-main>
+    <el-main>
+        <router-view></router-view>
+    </el-main>
   </el-container>
 </el-container>
   </div>
