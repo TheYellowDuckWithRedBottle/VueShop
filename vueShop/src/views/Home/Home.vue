@@ -81,7 +81,6 @@ import {getSubMenu} from '@/network/submenu'
     },
     created() {
         getSubMenu().then(res=>{
-            console.log(res)
             this.subMenu=res.data
         })
         this.activePath=window.sessionStorage.getItem("path")

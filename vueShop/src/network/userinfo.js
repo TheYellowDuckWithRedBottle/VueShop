@@ -14,8 +14,27 @@ export function getUsers(Queryparams){
         method:'get',
         url:'users',
         params:{
+            query:Queryparams.query,
             pagenum:Queryparams.pagenum,
             pagesize:Queryparams.pagesize
         }
+    })
+}
+export function putUserStatus(query){
+    return request({
+        method:'put',
+        url:`users/${query.id}/state/${query.status}`
+    })
+}
+export function addUser(user){
+    return request({
+        method:'post',
+        url:"users",
+        data:{
+            username:user.username,
+            password:user.password,
+            email:user.email,
+            mobile:user.mobile
+        }  
     })
 }
