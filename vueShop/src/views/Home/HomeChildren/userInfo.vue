@@ -34,12 +34,13 @@
             </template>
         </el-table-column>
         <el-table-column prop="mobile" label="操作" width="190px">
-            <el-button type="primary" icon="el-icon-edit" size="mini"></el-button>
-            <el-button type="danger" icon="el-icon-delete" size="mini"></el-button>
+          <template slot-scope="scope">
+            <el-button type="primary" icon="el-icon-edit" size="mini" @click="editUserForm(scope.row)"></el-button>
+            <el-button type="danger" icon="el-icon-delete" size="mini" @click="deleteUserById(scope.row.id)"></el-button>
             <el-tooltip class="item" effect="dark" content="设置用户" placement="top" :enterable="false">
               <el-button type="warning" icon="el-icon-setting" size="mini"></el-button>
             </el-tooltip>
-            
+            </template>
         </el-table-column>
       </el-table>
        <el-pagination
@@ -55,8 +56,7 @@
   <el-dialog
   title="添加用户"
   :visible.sync="dialogVisible"
-  width="70%"
-  >
+  width="70%">
   <el-form ref="AddUserFormRef" :model="AddUserForm"  :rules="AddUserFormRules">
     <el-form-item label="用户名" prop="username" clearable>
        <el-input v-model="AddUserForm.username" ></el-input>
@@ -76,11 +76,32 @@
     <el-button type="primary" @click="AddUser">确 定</el-button>
   </span>
 </el-dialog>
+
+    <el-dialog
+  title="修改用户"
+  :visible.sync="EditFormVisible"
+  >
+  <el-form ref="EditUserFormRef" :model="AddUserForm"  :rules="AddUserFormRules">
+    <el-form-item label="用户名" prop="username" >
+       <el-input v-model="AddUserForm.username"  :disabled="true"></el-input>
+    </el-form-item>
+    <el-form-item label="电话" prop="mobile">
+       <el-input v-model="AddUserForm.mobile"></el-input>
+    </el-form-item>
+    <el-form-item label="邮箱" prop="email">
+       <el-input v-model="AddUserForm.email"></el-input>
+    </el-form-item>
+  </el-form>
+  <span slot="footer" class="dialog-footer">
+    <el-button @click="dialogVisible = false">取 消</el-button>
+    <el-button type="primary" @click="EditUser">确 定</el-button>
+  </span>
+</el-dialog>
     </el-card>
   </div>
 </template>
 <script>
-  import {getUsers,putUserStatus,addUser} from '@/network/userinfo'
+  import {getUsers,putUserStatus,addUser,getUser,updateUser,deletUser} from '@/network/userinfo'
   export default {
     name: 'userInfo',
     data() {
@@ -106,10 +127,11 @@
           query:'',
           pagenum: 1,
           pagesize: 2
-        },
+          },
         userList: [],
         total:0,
         dialogVisible:false,
+        EditFormVisible:false,
         AddUserForm:{
             username:"",
             password:"",
@@ -136,7 +158,8 @@
           ],
           email:[{validator:validateEmail,trigger:'blur'}],
           mobile:[{validator:validatePhone,trigger:'blur'}]
-        }
+        },
+        editUser:{}
       }
     },
     created() {
@@ -191,6 +214,7 @@
       },
       showDialog(){
         this.dialogVisible=true
+        this.$refs.AddUserFormRef.resetFields()
       },
       AddUser(){
         this.$refs.AddUserFormRef.validate(validate=>{
@@ -204,6 +228,52 @@
           }
         })
         
+      },
+      editUserForm(user){
+        console.log(user)
+        let {username,email,mobile}=user
+        this.AddUserForm={username,email,mobile}
+        this.AddUserForm.id=user.id
+        console.log(this.AddUserForm)
+        this.EditFormVisible=true
+      },
+      EditUser(){
+          this.$refs.EditUserFormRef.validate((validate)=>{
+            if(!validate) return;
+            else{
+              updateUser(this.AddUserForm).then(res=>{
+                console.log(res)
+                if(res.meta.status===200)
+                {
+                  this.$message({message:"更新成功",type:'success'})
+                  this.EditFormVisible=false;
+                  this.getUserList(this.queryParams)
+                }
+                else{
+                  this.$message.error("更新失败")
+                }
+              })
+            }
+           })
+      },
+      deleteUserById(id){
+        console.log(id)
+         this.$confirm('此操作将删除该用户, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then((res) => {
+          if(res=="confirm")deletUser(id)
+          .then(res=>{
+            console.log(res)
+            if(res.meta.status==200) this.$message({type: 'success',message: '删除成功!'});
+          })
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });          
+        });
       }
     }
     }

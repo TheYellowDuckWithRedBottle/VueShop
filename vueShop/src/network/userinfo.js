@@ -20,6 +20,17 @@ export function getUsers(Queryparams){
         }
     })
 }
+
+export function updateUser(user){
+    return request({
+        method:'put',
+        url:`users/${user.id}`,
+        data:{
+           mobile:user.mobile,
+           email:user.email
+        }
+    })
+}
 export function putUserStatus(query){
     return request({
         method:'put',
@@ -36,5 +47,17 @@ export function addUser(user){
             email:user.email,
             mobile:user.mobile
         }  
+    })
+}
+export function getUser(id){
+    return request({
+        method:'get',
+        url:`users/${id}`
+    })
+}
+export function deletUser(id){
+    return request({
+        method:'delete',
+        url:`users/${id}`
     })
 }
