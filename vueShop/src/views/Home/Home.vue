@@ -61,7 +61,6 @@ export default {
     methods: {
         getMenu(){
             getSubMenu().then(res=>{
-                console.log(res)
                 this.subMenu=res.data
             })
         },
@@ -100,9 +99,9 @@ export default {
     text-align: center;
     line-height: 60px;
   }
-  i{
+  /* i{
       padding-right: 20px;
-  }
+  } */
 .head{
     display: flex;
     justify-content: space-between;
@@ -137,6 +136,6 @@ export default {
     background-color: #E9EEF3;
     color: #333;
     text-align: center;
-    line-height: 160px;
+  
   }
 </style>
