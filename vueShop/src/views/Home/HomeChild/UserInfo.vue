@@ -73,6 +73,26 @@
       </span>
         </el-dialog>
 
+    <el-dialog
+        title="为用户配置角色"
+        :visible.sync="AllowRoleUserShow">
+        <p>用户名:{{currentUser.username}}</p>
+          <el-select v-model="selectRoleId" placeholder="请选择">
+    <el-option
+      v-for="item in roleList"
+      :key="item.id"
+      :label="item.roleName"
+      :value="item.id">
+    </el-option>
+  </el-select>
+      <span slot="footer" class="dialog-footer">
+      <el-button @click="EditUserShow = false">取 消</el-button>
+      <el-button type="primary" @click="allowRole">提交</el-button>
+      </span>
+    </el-dialog>
+
+
+
          <el-dialog
       title="修改用户信息"
       :visible.sync="EditUserShow">
@@ -97,8 +117,8 @@
 </template>
 
 <script>
-import { getUsers, postUser,putUserStaus,putUser,deleteUser} from "@/network/userinfo";
-
+import { getUsers, postUser,putUserStaus,putUser,deleteUser,addRoleForUser} from "@/network/userinfo";
+import {getRolesList} from '@/network/right'
 export default {
   name: "UserInfo",
   data() {
@@ -153,11 +173,14 @@ export default {
       },
       AduUserShow:false,
       EditUserShow:false,
+      AllowRoleUserShow:false,
       currentUser:{
         id:0,
         email:"",
         mobile:""
-      }
+      },
+      selectRoleId:0,
+      roleList:[]
     };
   },
   methods: {
@@ -202,7 +225,7 @@ export default {
         id:userid,
         status:status
       }
-      console.log(userstate)
+  
       putUserStaus(userstate).then(res=>{
         console.log(res)
       }
@@ -217,7 +240,6 @@ export default {
           }
           else {      
             postUser(this.AddUserForm).then(res=>{
-              console.log(res)
               if(res.meta.status==201)
                this.AduUserShow=false
               this.$message({message:"添加成功",type:"success"})
@@ -233,7 +255,6 @@ export default {
         this.EditUserShow=true
         let{id,email,mobile,username}=user
         this.AddUserForm={id,email,mobile,username}
-        console.log(this.AddUserForm)
     },
     CommitEditUser(){
       this.$refs.EditUserFormRef.validate((validate)=>{
@@ -249,15 +270,12 @@ export default {
     },
      //删除用户
   DeleteUser(id){
-    console.log(id)
     this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then((res) => {
-          console.log(res)
           if(res=="confirm") deleteUser(id).then(res=>{
-            console.log(res)
             if(res.meta.status==200){
                 this.$message({type: 'success',message: '删除成功!'});
             }
@@ -272,12 +290,30 @@ export default {
   },
   SetUser(user){
     console.log(user)
+    this.currentUser.id=user.id
+    this.currentUser.username=user.username
+    this.AllowRoleUserShow=true
+  },
+  allowRole(){
+    console.log(this.currentUser.id,this.selectRoleId)
+    addRoleForUser(this.currentUser.id,this.selectRoleId).then(res=>{
+      console.log(res)
+      if(res.meta.status==200){
+        this.$message({message:'分配角色成功',type:'success'})
+        this.AllowRoleUserShow=false
+        this.GetUsers()
+      }
+    })
   }
   },
  
 
   created() {
     this.GetUsers();
+    getRolesList().then(res=>{
+      console.log(res)
+      this.roleList=res.data
+    })
   },
 };
 </script>

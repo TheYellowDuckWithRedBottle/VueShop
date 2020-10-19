@@ -72,7 +72,6 @@ export default {
             this.isCollapse=!this.isCollapse
         },
         saveActiveLink(activeIndex){
-            console.log(activeIndex)
             this.activeLink=activeIndex+""
 
         }

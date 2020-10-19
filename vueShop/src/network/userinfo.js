@@ -53,9 +53,22 @@ export function postUser(user){
     )
 
 }
+
+//删除用户
 export function deleteUser(id){
     return request({
         method:'delete',
         url:`/users/${id}`
+    })
+}
+
+//为用户添加角色
+export function addRoleForUser(id,roleId){
+    return request({
+        method:'put',
+        url:`users/${id}/role`,
+        data:{
+            rid:roleId
+        }
     })
 }
