@@ -61,3 +61,12 @@ export function deletUser(id){
         url:`users/${id}`
     })
 }
+export function putRoleForUser(id,rid){
+    return request({
+        method:'put',
+        url:`users/${id}/role`,
+        data:{
+            rid:rid
+        }
+    })
+}

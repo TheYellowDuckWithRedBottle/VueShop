@@ -37,8 +37,8 @@
           <template slot-scope="scope">
             <el-button type="primary" icon="el-icon-edit" size="mini" @click="editUserForm(scope.row)"></el-button>
             <el-button type="danger" icon="el-icon-delete" size="mini" @click="deleteUserById(scope.row.id)"></el-button>
-            <el-tooltip class="item" effect="dark" content="设置用户" placement="top" :enterable="false">
-              <el-button type="warning" icon="el-icon-setting" size="mini"></el-button>
+            <el-tooltip class="item" effect="dark" content="分配角色" placement="top" :enterable="false">
+              <el-button type="warning" icon="el-icon-setting" size="mini" @click="settingRole(scope.row)"></el-button>
             </el-tooltip>
             </template>
         </el-table-column>
@@ -97,11 +97,25 @@
     <el-button type="primary" @click="EditUser">确 定</el-button>
   </span>
 </el-dialog>
+      
+    <el-dialog title="分配角色" :visible.sync="allotRoleShow">
+      <p>当前用户:{{currentUser.username}}</p>
+      <p>当前角色:{{currentUser.role_name}}</p>
+        <el-select  placeholder="请选择角色" v-model="selectRole">
+          <el-option v-for="(item,index) in roleList" :key="item.id" :label="item.roleName"  :value="item.id"></el-option>  
+      </el-select>
+      <span slot="footer" class="dialog-footer">
+         <el-button @click="allotRoleShow = false">取 消</el-button>
+         <el-button type="primary" @click="allowRoleForUser">确 定</el-button>
+        </span>
+    </el-dialog>
     </el-card>
   </div>
 </template>
 <script>
-  import {getUsers,putUserStatus,addUser,getUser,updateUser,deletUser} from '@/network/userinfo'
+  import {getUsers,putUserStatus,addUser,getUser,updateUser,deletUser,putRoleForUser} from '@/network/userinfo'
+  import {getRoles} from '@/network/power'
+
   export default {
     name: 'userInfo',
     data() {
@@ -129,9 +143,11 @@
           pagesize: 2
           },
         userList: [],
+        roleList:[],
         total:0,
         dialogVisible:false,
         EditFormVisible:false,
+        allotRoleShow:false,
         AddUserForm:{
             username:"",
             password:"",
@@ -159,17 +175,19 @@
           email:[{validator:validateEmail,trigger:'blur'}],
           mobile:[{validator:validatePhone,trigger:'blur'}]
         },
-        editUser:{}
+        editUser:{},
+        currentUser:{},
+        selectRole:''
       }
     },
     created() {
       this.getUserList(this.queryParams)
+      this.getRoleList();
     },
     methods: {
       //获取用户列表
       getUserList(querystring) {
         getUsers(querystring).then(res => {
-          console.log(res)
           if (!res.meta.status == "200") {
             this.$message.error('获取用户列表失败');
           }
@@ -256,6 +274,7 @@
             }
            })
       },
+      //通过Id删除用户
       deleteUserById(id){
         console.log(id)
          this.$confirm('此操作将删除该用户, 是否继续?', '提示', {
@@ -274,6 +293,28 @@
             message: '已取消删除'
           });          
         });
+      },
+      getRoleList(){
+         getRoles().then(res=>{
+          if(res.meta.status==200){
+            this.roleList=res.data
+             console.log(this.roleList)
+          }
+        })
+      },
+      //展示分配角色对话框，获取当前用户信息
+      settingRole(userInfo){
+        this.currentUser=userInfo
+        this.allotRoleShow=true
+      },
+      //点击确定为用户分配角色
+      allowRoleForUser(){
+          putRoleForUser(this.currentUser.id,this.selectRole).then(res=>{
+            if(res.meta.status==200){
+              this.$message({message:'为用户分配角色成功',type:'success'})
+              this.allotRoleShow=false
+            }
+          })
       }
     }
     }

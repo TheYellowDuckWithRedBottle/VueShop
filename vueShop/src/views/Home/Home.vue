@@ -75,7 +75,6 @@ import {getSubMenu} from '@/network/submenu'
         toggle(){
             this.isCollapse=!this.isCollapse;},
         saveNavState(data){
-            console.log(data)
             this.activePath=data
             window.sessionStorage.setItem('path',data)}
     },
