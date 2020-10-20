@@ -8,6 +8,11 @@ const userInfo=()=>import('@/views/Home/HomeChild/UserInfo')
 const Role=()=>import('@/views/Home/HomeChild/RightManager/RoleCom')
 const Right=()=>import('@/views/Home/HomeChild/RightManager/RightCom')
 
+
+const GoodsCate=()=>import('@/views/Home/HomeChild/GoodsManager/GoodsCate')
+const GoodsList=()=>import('@/views/Home/HomeChild/GoodsManager/GoodsList')
+const GoodsParams=()=>import('@/views/Home/HomeChild/GoodsManager/GoodsParams')
+
 Vue.use(Router)
 
 const routes=[
@@ -33,6 +38,17 @@ const routes=[
       },{
         path:'/rights',
         component:Right
+      },
+      {
+        path:'/categories',
+        component:GoodsCate
+      },
+      {
+        path:'/goods',
+        component:GoodsList
+      },{
+        path:'/params',
+        component:GoodsParams
       }
     ]
   }
