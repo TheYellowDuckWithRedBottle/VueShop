@@ -7,6 +7,10 @@ const UserInfo=()=>import('@/views/Home/HomeChildren/userInfo')
 
 const Role=()=>import('@/views/Home/HomeChildren/PowerManager/RoleCom')
 const Right=()=>import('@/views/Home/HomeChildren/PowerManager/RightCom')
+
+const GoodCategory=()=>import('@/views/Home/HomeChildren/GoodsManager/GoodsCategory')
+const CategoryParameter=()=>import('@/views/Home/HomeChildren/GoodsManager/CategoryParameter')
+const GoodsList=()=>import('@/views/Home/HomeChildren/GoodsManager/GoodsList')
 Vue.use(Router)
 
 const routes=[
@@ -26,6 +30,9 @@ const routes=[
       {path:'/users',component:UserInfo},
       {path:'/roles',component:Role},
       {path:'/rights',component:Right},
+      {path:'/categories',component:GoodCategory},
+      {path:'/params',component:CategoryParameter},
+      {path:'/goods',component:GoodsList},
     ]
   }
 ]
