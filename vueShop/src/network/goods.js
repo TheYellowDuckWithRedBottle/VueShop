@@ -4,7 +4,7 @@ import {request} from './request'
 export function getGoodsList(query){
     return request({
         method:'get',
-        url:`/categories`,
+        url:'/categories',
         params:{
             type:query.type,
             pagenum:query.pagenum,
