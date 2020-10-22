@@ -22,3 +22,13 @@ export function addCategory(cateInfo){
         }
     })
 }
+
+export function getCategories(id,type){
+    return request({
+        method:'get',
+        url:`categories/${id}/attributes`,
+       params:{
+           sel:type
+       }
+    })
+}

@@ -41,8 +41,8 @@
         </template>
 
         <template slot="operation" scope="scope">
-          <el-button type="primary" icon="el-icon-edit">编辑</el-button>
-          <el-button type="danger" icon="el-icon-delete">删除</el-button>
+          <el-button type="primary" icon="el-icon-edit" size="mini">编辑</el-button>
+          <el-button type="danger" icon="el-icon-delete" size="mini">删除</el-button>
         </template>
       </zk-table>
 
@@ -55,8 +55,8 @@
         layout="total, sizes, prev, pager, next, jumper"
         :total="total"
       ></el-pagination>
-    <el-dialog title="分配权限" :visible.sync="AddCateVisiable">
-      <el-form ref="form" v-model="AddCateInfo" label-width="80px">
+    <el-dialog title="分配权限" :visible.sync="AddCateVisiable" @close="closeDialog">
+      <el-form ref="AddCateInfoRef" v-model="AddCateInfo" label-width="80px">
         <el-form-item label="分类名称">
           <el-input v-model="AddCateInfo.name"></el-input>
         </el-form-item>
@@ -65,13 +65,14 @@
                 ref="cascader"
                 v-model="SelectparentCate"
                 :options="parentCate"
-                :props="{expandTrigger:'hover',label:'cat_name',value:'cat_id'}"
+                clearable
+                :props="{expandTrigger:'hover',label:'cat_name',value:'cat_id',checkStrictly: true}"
                 @change="handleChange">
                 </el-cascader>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="onSubmit">立即添加</el-button>
-          <el-button >取消</el-button>
+          <el-button @click="AddCateVisiable=false">取消</el-button>
         </el-form-item>
       </el-form>
     </el-dialog>
@@ -132,6 +133,7 @@ export default {
         pagesize: 5
       },
       AddCateInfo: {
+        pid:"",
         name: "",
         level: ""
       },
@@ -156,23 +158,45 @@ export default {
       this.queryString.pagenum = pageNum;
       this.getGoodsCate();
     },
-     handleChange(value) {
+    handleChange(value) {
         console.log(value);
+        if(value.length>0)
+        {
+          this.AddCateInfo.level=value.length
+          this.AddCateInfo.pid=value[value.length-1]
+        }
+        else{
+          this.AddCateInfo.level=0
+          this.AddCateInfo.pid=0
+        }
         const checked= this.$refs.cascader.getCheckedNodes()
         console.log(checked)
+        console.log(this.AddCateInfo)
       },
-    addCate() {
+    addCate() {     
         this.queryString.type=2
         getGoodsCategory(this.queryString).then(res=>{
             if(res.meta.status==200){
                 this.parentCate=res.data.result
-                console.log(this.parentCate)
             }
         })
         this.AddCateVisiable=true
+        
+    },
+    closeDialog(){
+      this.$refs.AddCateInfoRef.resetFields()
     },
     onSubmit(){
-
+      console.log(this.AddCateInfo)
+        addCategory(this.AddCateInfo).then(res=>{
+          console.log(res)
+          if(res.meta.data==200)
+          {
+              this.$message({message:'添加成功',type:'success'})
+          }
+          this.AddCateVisiable=false
+          
+        })
     }
   },
   created() {
