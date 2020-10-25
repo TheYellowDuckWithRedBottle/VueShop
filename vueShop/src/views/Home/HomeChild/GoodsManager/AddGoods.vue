@@ -102,10 +102,9 @@ export default {
 
           if(nextVllue==0&&this.addGoodsForm.goods_cat.length!==3){
                this.$message({message:'请选择商品分类',type:'success'})
+                return false
           }
-        else{
-           return false
-        }
+        
       },
       handleChange(value){
           console.log(value)
