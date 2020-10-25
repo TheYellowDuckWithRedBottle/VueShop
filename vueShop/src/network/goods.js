@@ -12,3 +12,14 @@ export function getGoodsList(query){
         }
     })
 }
+export function postCateInfo(CateInfo){
+    return request({
+        method:'post',
+        url:'/categories',
+        params:{
+            cat_pid:CateInfo.pid,
+            cat_name:CateInfo.name,
+            cat_level:CateInfo.level
+        }
+    })
+}

@@ -72,7 +72,7 @@
     </el-form>
   <span slot="footer" class="dialog-footer">
     <el-button @click="addCateDiaShow = false">取 消</el-button>
-    <el-button type="primary" @click="addCateDiaShow = false">确 定</el-button>
+    <el-button type="primary" @click="commitCateInfo">确 定</el-button>
   </span>
 </el-dialog>
     </el-card>
@@ -80,7 +80,7 @@
 </template>
 
 <script>
-import { getGoodsList } from "@/network/goods";
+import { getGoodsList,postCateInfo } from "@/network/goods";
 export default {
   name: "GoodsCate",
   data() {
@@ -177,6 +177,17 @@ export default {
     },
     closedialog(){
     this.$refs.addCateformRef.resetFields()
+    },
+    commitCateInfo(){
+      console.log(222)
+      console.log(this.CateInfo)
+      // postCateInfo(this.CateInfo).then(res=>{
+      //   console.log(res)
+      //   if(res.meta.status==200){
+      //     this.$message({message:'成功',type:'success'})
+      //     this.addCateDiaShow=false
+      //   }
+      // })
     }
   },
   created() {

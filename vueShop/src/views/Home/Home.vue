@@ -14,9 +14,10 @@
     <el-aside :width="isCollapse?'64px':'250px'">
         <div class="toggleBar" @click="toggleCollapse">|||</div>
     <el-menu
-    background-color="#eeeaaa"
     unique-opened
-    active-text-color="#aaaeee"
+   background-color="#545c64"
+      text-color="#fff"
+      active-text-color="#ffd04b"
     :collapse="isCollapse"
     :collapse-transition="false"
     :default-active="activeLink"
@@ -73,11 +74,12 @@ export default {
         },
         saveActiveLink(activeIndex){
             this.activeLink=activeIndex+""
-
+            this.$store.commit('changeIndex', this.activeLink)
         }
     },
     created() {
         this.getMenu()
+        
     },
 }
 </script>
