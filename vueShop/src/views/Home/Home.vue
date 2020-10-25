@@ -75,11 +75,12 @@ export default {
         saveActiveLink(activeIndex){
             this.activeLink=activeIndex+""
             this.$store.commit('changeIndex', this.activeLink)
+
         }
     },
     created() {
         this.getMenu()
-        
+        this.activeLink=this.$store.state.currRouteLink
     },
 }
 </script>

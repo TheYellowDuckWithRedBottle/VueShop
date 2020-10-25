@@ -13,6 +13,16 @@ Vue.config.productionTip = false
 Vue.use(ZkTable)
 Vue.use(ElementUI);
 
+Vue.filter('filterDate',function(date){
+  const dt=new Date(date)
+  const yy=dt.getFullYear()
+  const mon=(dt.getMonth()+1+"").padStart(2,'0')
+  const day=(dt.getDay()+1+"").padStart(2,'0')
+  const h=dt.getHours()
+  const min=dt.getMinutes()
+  const sec=dt.getSeconds()
+  return `${yy}-${mon}-${day} ${h}:${min}:${sec}`
+})
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

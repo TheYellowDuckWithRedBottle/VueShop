@@ -1,7 +1,7 @@
 import {request} from './request'
 
 //获取所有的权限
-export function getGoodsList(query){
+export function getCatesList(query){
     return request({
         method:'get',
         url:'/categories',
@@ -20,6 +20,18 @@ export function postCateInfo(CateInfo){
             cat_pid:CateInfo.pid,
             cat_name:CateInfo.name,
             cat_level:CateInfo.level
+        }
+    })
+}
+export function getGoods(queryString){
+    return request({
+        method:'get',
+        url:'/goods',
+        params:{
+            query:queryString.query,
+            pagenum:queryString.pagenum,
+            pagesize:queryString.pagesize
+
         }
     })
 }

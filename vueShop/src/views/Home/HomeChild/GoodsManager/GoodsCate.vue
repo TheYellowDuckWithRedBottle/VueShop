@@ -80,7 +80,7 @@
 </template>
 
 <script>
-import { getGoodsList,postCateInfo } from "@/network/goods";
+import { getCatesList,postCateInfo } from "@/network/goods";
 export default {
   name: "GoodsCate",
   data() {
@@ -143,7 +143,7 @@ export default {
   },
   methods: {
     getGoods() {
-      getGoodsList(this.queryString).then((res) => {
+      getCatesList(this.queryString).then((res) => {
         console.log(res);
         if (res.meta.status == 200) {
           this.goodsList = res.data.result;

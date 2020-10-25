@@ -12,7 +12,7 @@ const Right=()=>import('@/views/Home/HomeChild/RightManager/RightCom')
 const GoodsCate=()=>import('@/views/Home/HomeChild/GoodsManager/GoodsCate')
 const GoodsList=()=>import('@/views/Home/HomeChild/GoodsManager/GoodsList')
 const GoodsParams=()=>import('@/views/Home/HomeChild/GoodsManager/GoodsParams')
-
+const addGoods=()=>import('@/views/Home/HomeChild/GoodsManager/addGoods')
 Vue.use(Router)
 
 const routes=[
@@ -49,6 +49,9 @@ const routes=[
       },{
         path:'/params',
         component:GoodsParams
+      },{
+        path:'/addGoods',
+        component:addGoods
       }
     ]
   }
