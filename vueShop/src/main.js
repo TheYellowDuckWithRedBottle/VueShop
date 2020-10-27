@@ -10,6 +10,17 @@ import ZkTable from 'vue-table-with-tree-grid'
 
 Vue.config.productionTip = false
 
+Vue.filter('formatDate',function(date){
+    const dates=new Date(date)
+    const yy=dates.getFullYear()
+    const month=(dates.getMonth()+1+'').padStart(2,0)
+    const day=dates.getDate()
+    const hour=dates.getHours()
+    const min=dates.getMinutes()
+    const second=dates.getSeconds()
+  return `${yy}-${month}-${day} ${hour}:${min}:${second}`
+
+})
 Vue.use(ElementUI);
 Vue.use(ZkTable)
 /* eslint-disable no-new */

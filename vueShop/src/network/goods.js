@@ -32,3 +32,27 @@ export function getCategories(id,type){
        }
     })
 }
+
+export function PostParams(id,ParamsInfo){
+    return request({
+        method:'post',
+        url:`categories/${id}/attributes`,
+       data:{
+        attr_name:ParamsInfo.attr_name,
+        attr_sel:ParamsInfo.attr_sel,
+        attr_vals:ParamsInfo.attr_vals
+       }
+    })
+}
+
+export function GetGoodsList(queryString){
+    return request({
+        method:'get',
+        url:'goods',
+       params:{
+            query:queryString.query,
+            pagesize:queryString.pagesize,
+            pagenum:queryString.pagenum
+       }
+    })
+}
