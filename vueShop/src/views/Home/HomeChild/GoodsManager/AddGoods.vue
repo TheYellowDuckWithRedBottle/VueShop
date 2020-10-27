@@ -18,7 +18,7 @@
         <el-step title="完成"></el-step>
       </el-steps>
 
-<el-form v-model="addGoodsForm" :rules="rules">
+<el-form :model="addGoodsForm" :rules="rules">
       <el-tabs :tab-position="'left'" style=""  :before-leave="changeIndex">
         <el-tab-pane label="基本信息"  name="0">
             <el-form-item label="商品名称" prop="goods_name"> 

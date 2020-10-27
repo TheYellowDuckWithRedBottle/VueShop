@@ -35,3 +35,13 @@ export function getGoods(queryString){
         }
     })
 }
+export function getCategoriesParams(id,type){
+    return request({
+        method:'get',
+        url:`categories/${id}/attributes`,
+        params:{
+            sel:type
+        }
+    })
+}
+
