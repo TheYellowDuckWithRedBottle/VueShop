@@ -7,7 +7,12 @@ import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import '@/assets/css/global.css'
 import ZkTable from 'vue-table-with-tree-grid'
+import VueQuillEditor from 'vue-quill-editor'
 
+
+import 'quill/dist/quill.core.css'
+import 'quill/dist/quill.snow.css'
+import 'quill/dist/quill.bubble.css'
 Vue.config.productionTip = false
 
 Vue.filter('formatDate',function(date){
@@ -23,6 +28,7 @@ Vue.filter('formatDate',function(date){
 })
 Vue.use(ElementUI);
 Vue.use(ZkTable)
+Vue.use(VueQuillEditor);
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
