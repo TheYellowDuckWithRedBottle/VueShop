@@ -14,6 +14,8 @@ const GoodsList=()=>import('@/views/Home/HomeChildren/GoodsManager/GoodsList')
 const AddGoods=()=>import('@/views/Home/HomeChildren/GoodsManager/AddGoods')
 
 const OrderList=()=>import('@/views/Home/HomeChildren/OrderManager/OrderList')
+
+const Report=()=>import('@/views/Home/HomeChildren/DataStatic/DataReport')
 Vue.use(Router)
 
 const routes=[
@@ -37,7 +39,8 @@ const routes=[
       {path:'/params',component:CategoryParameter},
       {path:'/goods',component:GoodsList},
       {path:'/addGoods',component:AddGoods},
-      {path:'/orders',component:OrderList}
+      {path:'/orders',component:OrderList},
+      {path:'/reports',component:Report}
     ]
   }
 ]
