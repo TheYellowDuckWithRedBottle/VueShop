@@ -19,7 +19,7 @@
       <el-form :model="ShopInfo" :rules="rules" label-width="120px">
         <el-tabs :tab-position="'left'" :before-leave="changeTabs">
           <el-tab-pane label="基本信息">
-            <el-form-item label="商品名称" prop="goods_name">
+            <el-form-item label="商品名称" prop="goods_name" >
               <el-input v-model="ShopInfo.goods_name"></el-input>
             </el-form-item>
             <el-form-item label="商品价格" prop="goods_price">
