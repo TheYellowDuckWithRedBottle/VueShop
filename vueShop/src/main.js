@@ -8,11 +8,12 @@ import 'element-ui/lib/theme-chalk/index.css';
 import '@/assets/css/global.css'
 import ZkTable from 'vue-table-with-tree-grid'
 import store from './store'
+
+
 Vue.config.productionTip = false
 
 Vue.use(ZkTable)
 Vue.use(ElementUI);
-
 Vue.filter('filterDate',function(date){
   const dt=new Date(date)
   const yy=dt.getFullYear()
